@@ -23,7 +23,7 @@ pub fn run(args: Args) -> Result<(), Error> {
     let png = Png::build(&buffer).unwrap();
     println!("{} chunks", png.chunks.len());
     for chunk in png.chunks {
-        println!("{}", from_utf8(chunk.chunk_type).unwrap());
+        println!("{}", from_utf8(chunk.chunk_type.as_ref()).unwrap());
     }
 
     //write(args.out_file_path, buffer)?;
