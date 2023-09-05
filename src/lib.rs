@@ -4,6 +4,7 @@ use std::io::Read;
 use std::io::BufReader;
 use std::fs::File;
 use std::fs::write;
+use std::str::from_utf8;
 
 mod args;
 pub use args::Args;
@@ -22,7 +23,7 @@ pub fn run(args: Args) -> Result<(), Error> {
     let png = Png::build(&buffer).unwrap();
     println!("{} chunks", png.chunks.len());
     for chunk in png.chunks {
-        println!("{}", chunk.chunk_type);
+        println!("{}", from_utf8(chunk.chunk_type).unwrap());
     }
 
     //write(args.out_file_path, buffer)?;
