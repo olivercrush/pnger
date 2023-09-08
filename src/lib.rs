@@ -26,6 +26,10 @@ pub fn run(args: Args) -> Result<(), Error> {
         println!("{}", from_utf8(chunk.chunk_type.as_ref()).unwrap());
     }
 
+    for byte in png.extract_idat() {
+        print!("{}", byte);
+    }
+    
     //write(args.out_file_path, buffer)?;
 
     Ok(())

@@ -22,6 +22,16 @@ impl Png {
         Ok(Png { chunks })
     }
 
+    pub fn extract_idat(&self) -> Vec<u8> {
+        let mut data = Vec::new();
+
+        for chunk in &self.chunks[..] {
+            data.append(&mut chunk.chunk_data.clone())
+        }
+
+        data
+    }
+
     pub fn as_u32(bytes: &[u8]) -> u32 {
         ((bytes[0] as u32) << 24) + ((bytes[1] as u32) << 16) + ((bytes[2] as u32) << 8) + (bytes[3] as u32)
     }
