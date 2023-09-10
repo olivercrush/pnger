@@ -1,4 +1,5 @@
 use std::error::Error;
+use std::str::from_utf8;
 
 pub struct Png {
     pub chunks: Vec<Chunk>
@@ -22,14 +23,20 @@ impl Png {
         Ok(Png { chunks })
     }
 
-    pub fn extract_idat(&self) -> Vec<u8> {
-        let mut data = Vec::new();
+    pub fn extract_size(&self) -> (u32, u32) {
+        let ihdr = self.find_first_chunk_of_name("IHDR").unwrap();
+        (Self::as_u32(&ihdr.chunk_data[0..4]), Self::as_u32(&ihdr.chunk_data[4..8]))
+    }
 
-        for chunk in &self.chunks[..] {
-            data.append(&mut chunk.chunk_data.clone())
+    pub fn find_first_chunk_of_name(&self, name: &str) -> Result<&Chunk, ()> {
+    
+        for chunk in &self.chunks {
+            if name.eq_ignore_ascii_case(from_utf8(chunk.chunk_type.as_ref()).unwrap()) {
+                return Ok(chunk);
+            }
         }
 
-        data
+        return Err(());
     }
 
     pub fn as_u32(bytes: &[u8]) -> u32 {
