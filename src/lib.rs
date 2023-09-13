@@ -20,7 +20,7 @@ pub fn run(args: Args) -> Result<(), Error> {
 
     reader.read_to_end(&mut buffer)?;
 
-    let png = Png::build(&buffer).unwrap();
+    let png = Png::build(buffer).unwrap();
     /*println!("{} chunks", png.chunks.len());
     for chunk in png.chunks {
         println!("{}", from_utf8(chunk.chunk_type.as_ref()).unwrap());
