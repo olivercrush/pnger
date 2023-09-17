@@ -21,10 +21,11 @@ pub fn run(args: Args) -> Result<(), Error> {
     reader.read_to_end(&mut buffer)?;
 
     let png = Png::build(buffer).unwrap();
-    /*println!("{} chunks", png.chunks.len());
-    for chunk in png.chunks {
-        println!("{}", from_utf8(chunk.chunk_type.as_ref()).unwrap());
-    }*/
+    println!("{} chunks", png.chunks.len());
+    for chunk in &png.chunks {
+        print!("{}, ", from_utf8(chunk.chunk_type.as_ref()).unwrap());
+    }
+    print!("\n");
 
     let size = png.extract_size();
     println!("W:{} / H:{}", size.0, size.1);
