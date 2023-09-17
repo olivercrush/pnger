@@ -6,7 +6,6 @@ use pnger::run;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    
     let args = Args::build(&args).unwrap_or_else(|err| {
         println!("Problem parsing arguments: {err}");
         process::exit(1);

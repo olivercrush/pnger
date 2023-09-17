@@ -10,6 +10,8 @@ mod args;
 pub use args::Args;
 
 mod png;
+mod huffman_decompress;
+
 pub use png::Png;
 
 pub fn run(args: Args) -> Result<(), Error> {
