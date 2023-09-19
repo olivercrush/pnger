@@ -10,7 +10,7 @@ mod args;
 pub use args::Args;
 
 mod png;
-mod huffman_decompress;
+mod inflate;
 
 pub use png::Png;
 
@@ -23,14 +23,16 @@ pub fn run(args: Args) -> Result<(), Error> {
     reader.read_to_end(&mut buffer)?;
 
     let png = Png::build(buffer).unwrap();
-    println!("{} chunks", png.chunks.len());
+
+    /*println!("{} chunks", png.chunks.len());
     for chunk in &png.chunks {
         print!("{}, ", from_utf8(chunk.chunk_type.as_ref()).unwrap());
     }
-    print!("\n");
+    print!("\n");*/
 
-    let size = png.extract_size();
-    println!("W:{} / H:{}", size.0, size.1);
+    /*let size = png.extract_size();
+    println!("W:{} / H:{}", size.0, size.1);*/
+
     //write(args.out_file_path, buffer)?;
 
     Ok(())
