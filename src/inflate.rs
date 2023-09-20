@@ -6,20 +6,31 @@ pub fn inflate(bytes: &Vec<u8>) -> Vec<u8> {
 
 fn huffman_fixed_decompress(bytes: &Vec<u8>) -> (Vec<u8>, usize) {
     // init decompress
-    let mut cursor = 0;
-    let mut current_byte = bytes.get(cursor).unwrap().clone();
-    let mut remaining_bits = 8;
+    let mut byte_cursor = 0;
+    let mut bit_cursor = 0;
+    let mut final_block = false;
 
-    // read header (3 bits)
-    let last_block = (current_byte >> remaining_bits - 1 & 1) == 1;
-    remaining_bits -= 1;
+    // process blocks
+    while !final_block {
+        let mut current_byte = bytes.get(byte_cursor).unwrap().clone();
 
-    current_byte = current_byte >> 7;
-    let compression_type = (current_byte >> 5 & 3);
-    remaining_bits -= 2;
+        // read header (3 bits)
+        calculate_bits_processed(1, &mut bit_cursor, &mut byte_cursor);
+        final_block = (current_byte >> (8 - bit_cursor) & 1) == 1;
 
-    // read literals / length-distance code
-    // return updated cursor with decompressed data
+        calculate_bits_processed(1, &mut bit_cursor, &mut byte_cursor);
+        let mut compression_type = (current_byte >> (8 - bit_cursor) & 1);
+        calculate_bits_processed(1, &mut bit_cursor, &mut byte_cursor);
+        compression_type = compression_type + (current_byte >> (8 - bit_cursor) & 1);
+
+        // read literals / length-distance code
+
+        // return updated cursor with decompressed data
+    }
 
     (Vec::new(), 0)
+}
+
+fn calculate_bits_processed(processed_bits: usize, bit_cursor: &mut usize, byte_cursor: &mut usize) {
+    // calculate processed_bits (should be always 1 ?), then if it's 8 reset and increment byte_cursor
 }
