@@ -1,6 +1,6 @@
 # PNGER
 
-A Rust program to decode png files
+A Rust program to decode png files  
 Goal is educational, to learn about the PNG spec and Rust altogether
 
 ## Ressources
